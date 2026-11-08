@@ -1,0 +1,3 @@
+print("как тебя зовут?")
+name = input()
+print(f"привет {name} добро пожаловать в Dark Web")
