@@ -2,99 +2,229 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DARK WEB</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARK WEB | Username Finder</title>
 
-    <style>
-        body {
-            background: #000;
-            color: #00ff41;
-            font-family: monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        .container {
-            width: 90%;
-            max-width: 400px;
-        }
+body {
+    margin: 0;
+    background: #050805;
+    color: #00ff66;
+    font-family: monospace;
+}
 
-        h1 {
-            font-size: 45px;
-            text-shadow: 0 0 15px #00ff41;
-            letter-spacing: 5px;
-        }
+header {
+    padding: 25px;
+    text-align: center;
+    border-bottom: 1px solid #123d20;
+    background: #080e09;
+}
 
-        input {
-            background: #080808;
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            padding: 13px;
-            width: 85%;
-            margin-top: 20px;
-            outline: none;
-            font-family: monospace;
-        }
+header h1 {
+    font-size: 32px;
+    letter-spacing: 7px;
+    text-shadow: 0 0 15px #00ff66;
+    margin: 0;
+}
 
-        button {
-            background: #00ff41;
-            color: black;
-            border: none;
-            padding: 12px 30px;
-            margin-top: 15px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+header p {
+    color: #438b5b;
+    letter-spacing: 3px;
+}
 
-        button:hover {
-            background: #008f11;
-        }
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 65px auto;
+}
 
-        #welcome {
-            margin-top: 30px;
-            font-size: 18px;
-            text-shadow: 0 0 10px #00ff41;
-        }
-    </style>
+.panel {
+    background: #080e09;
+    border: 1px solid #14552b;
+    padding: 25px;
+    box-shadow: 0 0 20px #001b09;
+}
+
+h2 {
+    text-align: center;
+    font-size: 22px;
+}
+
+.description {
+    color: #548b65;
+    text-align: center;
+    font-size: 13px;
+}
+
+input {
+    width: 100%;
+    padding: 16px;
+    margin-top: 25px;
+    background: #020402;
+    border: 1px solid #00cc55;
+    color: #00ff66;
+    outline: none;
+    font-size: 16px;
+}
+
+input:focus {
+    box-shadow: 0 0 12px #00ff6655;
+}
+
+button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 15px;
+    background: #00ff66;
+    border: none;
+    color: #001a08;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+button:hover {
+    background: #00cc55;
+}
+
+.platforms {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.platform {
+    border: 1px solid #174629;
+    padding: 13px;
+    text-align: center;
+    color: #72d991;
+}
+
+#results {
+    margin-top: 25px;
+    color: #00ff66;
+}
+
+.result {
+    border: 1px solid #174629;
+    padding: 14px;
+    margin-top: 10px;
+}
+
+.result a {
+    color: #00ff66;
+    text-decoration: none;
+}
+
+.result a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #386b46;
+    font-size: 12px;
+}
+</style>
 </head>
 
 <body>
 
-    <div class="container">
+<header>
+    <h1>DARK WEB</h1>
+    <p>USERNAME FINDER</p>
+</header>
 
-        <h1>DARK WEB</h1>
+<div class="container">
 
-        <p>Как тебя зовут?</p>
+    <div class="panel">
 
-        <input type="text" id="username"
-               placeholder="Введи своё имя">
+        <h2>USER SEARCH</h2>
 
-        <br>
+        <p class="description">
+            SEARCH PUBLIC SOCIAL PROFILES
+        </p>
 
-        <button onclick="welcome()">ВОЙТИ</button>
+        <input
+            type="text"
+            id="username"
+            placeholder="@username"
+        >
 
-        <div id="welcome"></div>
+        <button onclick="searchUser()">
+            [ START SEARCH ]
+        </button>
+
+        <div class="platforms">
+            <div class="platform">TIKTOK</div>
+            <div class="platform">TELEGRAM</div>
+            <div class="platform">INSTAGRAM</div>
+            <div class="platform">YOUTUBE</div>
+            <div class="platform">REDDIT</div>
+        </div>
+
+        <div id="results"></div>
 
     </div>
 
-    <script>
-        function welcome() {
-            let name = document.getElementById("username").value;
+</div>
 
-            if (name.trim() === "") {
-                alert("Введите своё имя!");
-                return;
-            }
+<footer>
+    DARK WEB PROJECT © 2026
+    <p>PUBLIC USERNAME SEARCH ENGINE</p>
+</footer>
 
-            document.getElementById("welcome").innerText =
-                "Добро пожаловать, " + name + ", в Dark Web!";
+<script>
+async function searchUser() {
+    const username = document
+        .getElementById("username")
+        .value.trim();
+
+    const results = document.getElementById("results");
+
+    results.textContent = "SEARCHING...";
+
+    try {
+        const response = await fetch(
+            "/search?username=" + encodeURIComponent(username)
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            results.textContent = data.error || "Search error";
+            return;
         }
-    </script>
+
+        results.innerHTML = "<h3>SEARCH RESULTS</h3>";
+
+        data.results.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "result";
+
+            const link = document.createElement("a");
+            link.href = item.url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "OPEN " + item.platform;
+
+            div.appendChild(link);
+            results.appendChild(div);
+        });
+
+    } catch (error) {
+        results.textContent = "SERVER CONNECTION ERROR";
+    }
+}
+</script>
 
 </body>
 </html>
